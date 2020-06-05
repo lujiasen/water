@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    active: dev
+
+#    chaperone_card_scan chaperone_user hospital_config  temperature_record

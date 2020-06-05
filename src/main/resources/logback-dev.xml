@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="5 seconds" debug="false">
+    <conversionRule conversionWord="trace" converterClass="com.water.aop.log.TraceMessageConverter"/>
+<!--    <property name="LOG_HOME" value="E:/WorkSpace/log/water" />-->
+    <property name="LOG_HOME" value="/usr/local/lujiasen/logs/water/" />
+    <!-- 控制台日志 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%-20(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%X{X-B3-TraceId}] [%trace] %-5level%logger{80}.%method - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/water.log</File>
+        <encoder>
+            <pattern>%-20(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%X{X-B3-TraceId}] [%trace] %-5level %logger{80}.%method - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/water.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="*" level="DEBUG" />
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
