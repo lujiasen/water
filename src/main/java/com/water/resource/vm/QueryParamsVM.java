@@ -11,81 +11,29 @@ import java.util.Map;
  * @Version v1.0
  */
 public class QueryParamsVM {
+    //分页信息
+    private PageVM pagevm;
+    //查询条件
+    private Map<String, Object> criteriaMap;
 
-    private PageVM pagevm;//分页信息
-    private Map<String, Object> criteriaMap;//查询条件
-    private Integer chaperoneId;// 陪护卡用户
-    private String hospitalId;
-    private String chaperoneIdCard;
-    private String authCode;
-    private Integer inpatientAreaId;
-    private String module;
-    private String type;
-    private String deviceId;
-    private String[] types;
+    private String expressNo;
+    private String shipperName;
+    private String shipperCode;
 
-    public String getDeviceId() {
-        return deviceId;
+    public String getShipperName() {
+        return shipperName;
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+    public void setShipperName(String shipperName) {
+        this.shipperName = shipperName;
     }
 
-    public String getChaperoneIdCard() {
-        return chaperoneIdCard;
+    public String getShipperCode() {
+        return shipperCode;
     }
 
-    public void setChaperoneIdCard(String chaperoneIdCard) {
-        this.chaperoneIdCard = chaperoneIdCard;
-    }
-
-    public String getAuthCode() {
-        return authCode;
-    }
-
-    public void setAuthCode(String authCode) {
-        this.authCode = authCode;
-    }
-
-    public String getModule() {
-        return module;
-    }
-
-    public void setModule(String module) {
-        this.module = module;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String[] getTypes() {
-        return types;
-    }
-
-    public void setTypes(String[] types) {
-        this.types = types;
-    }
-
-    public String getHospitalId() {
-        return hospitalId;
-    }
-
-    public void setHospitalId(String hospitalId) {
-        this.hospitalId = hospitalId;
-    }
-
-    public Integer getChaperoneId() {
-        return chaperoneId;
-    }
-
-    public void setChaperoneId(Integer chaperoneId) {
-        this.chaperoneId = chaperoneId;
+    public void setShipperCode(String shipperCode) {
+        this.shipperCode = shipperCode;
     }
 
     public PageVM getPagevm() {
@@ -104,24 +52,11 @@ public class QueryParamsVM {
         this.criteriaMap = criteriaMap;
     }
 
-    public Integer getInpatientAreaId() {
-        return inpatientAreaId;
+    public String getExpressNo() {
+        return expressNo;
     }
 
-    public void setInpatientAreaId(Integer inpatientAreaId) {
-        this.inpatientAreaId = inpatientAreaId;
-    }
-
-    @Override
-    public String toString() {
-        return "QueryParamsVM{" +
-                "pagevm=" + pagevm +
-                ", criteriaMap=" + criteriaMap +
-                ", chaperoneId=" + chaperoneId +
-                ", hospitalId='" + hospitalId + '\'' +
-                ", inpatientAreaId=" + inpatientAreaId +
-                ", type='" + type + '\'' +
-                ", types=" + Arrays.toString(types) +
-                '}';
+    public void setExpressNo(String expressNo) {
+        this.expressNo = expressNo;
     }
 }

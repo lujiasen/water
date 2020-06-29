@@ -2,6 +2,8 @@ package com.water.util;
 
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.water.dto.weChat.TextMessage;
 
 import java.util.Map;
@@ -19,8 +21,6 @@ import java.util.Map;
 
 public class WeChatResultMessage {
 
-
-	private static final String EXPRESS = "{\"shunfeng\":\"SF,顺丰速运\",\"shentong\":\"STO,申通快递\",\"zhongtong\":\"ZTO,中通快递\",\"yuantong\":\"YTO,圆通速递\",\"yunda\":\"YD,韵达速递\",\"ems\":\"EMS,EMS\",\"tiantian\":\"HHTT,天天快递\",\"debangwuliu\":\"DBL,德邦\",\"youzhengguonei\":\"YZPY,邮政快递包裹\",\"quanfengkuaidi\":\"QFKD,全峰快递\",\"youshuwuliu\":\"UC,优速快递\",\"kuaijiesudi\":\"FAST,快捷快递\",\"zhaijisong\":\"ZJS,宅急送\",\"huitongkuaidi\":\"HTKY,百世快递\"}";
 	/**
 	 * 
 	* @return  
@@ -55,8 +55,7 @@ public class WeChatResultMessage {
 		String return_content = "";
 		if(content.startsWith("查询")){
 			String express_no = content.substring(2);
-			//return_content = getExpressCompany(express_no,Integer.valueOf(map.get("userId")));
-			return_content = "test";
+			return_content = getExpressCompany(express_no);
 		}else{
 			return_content = "如若查询快递,请输入:查询+单号.如\"查询3804210740406\"";
 		}
@@ -71,26 +70,25 @@ public class WeChatResultMessage {
 		
 	}
 	//#wechat_redirect
-//	public static  String getExpressCompany(String express_no,int userId){
-//		String json_string = KdniaoTrackQueryAPI.getExpressCompany(express_no);
-//		JSONObject json = JSONObject.fromObject(json_string);
-//		JSONArray list_exprss = json.getJSONArray("Shippers");
-//		if(list_exprss ==null || list_exprss.size() == 0){
-//			return "暂无物流信息";
-//		}else{
-//			StringBuffer content = new StringBuffer();
-//			content.append("点击查看详情\n");
-//			JSONArray list = json.getJSONArray("Shippers");
-//			JSONObject express_json = JSONObject.fromObject(EXPRESS);
-//			list.forEach((Object j) -> {
-//				JSONObject company = JSONObject.fromObject(j);
-//				String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5179c821a45f7352&redirect_uri=http://www.lujiasen.com/wechat/weChat/redirectUrl?param=expressNo="+
-//						express_no + ",companyCode="+company.get("ShipperCode")+",userId="+userId+",company="+company.get("ShipperName")
-//						+"&response_type=code&scope=snsapi_base&state=express_information&connect_redirect=1#wechat_redirect";
-//				System.out.println(url);
-//				content.append("<a href='"+url+"'>"+express_no + "\t" + company.get("ShipperName")+"\t"+"</a>\n");
-//			});
-//			return content.toString();
-//		}
-//	}
+	public static  String getExpressCompany(String express_no){
+		String json_string = KdniaoTrackQueryAPI.getExpressCompany(express_no);
+		JSONObject json = JSONObject.parseObject(json_string);
+		JSONArray list_exprss = json.getJSONArray("Shippers");
+		if(list_exprss ==null || list_exprss.size() == 0){
+			return "暂无物流信息";
+		}else{
+			StringBuffer content = new StringBuffer();
+			content.append("点击查看详情\n");
+			JSONArray list = json.getJSONArray("Shippers");
+			list.forEach((Object j) -> {
+				JSONObject company = JSONObject.parseObject(j.toString());
+				String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5179c821a45f7352&redirect_uri=http://www.lujiasen.com/wechat/weChat/redirectUrl?param=expressNo="+
+						express_no + ",companyCode="+company.get("ShipperCode")+",company="+company.get("ShipperName")
+						+"&response_type=code&scope=snsapi_base&state=express_information&connect_redirect=1#wechat_redirect";
+				System.out.println(url);
+				content.append("<a href='"+url+"'>"+express_no + "\t" + company.get("ShipperName")+"\t"+"</a>\n");
+			});
+			return content.toString();
+		}
+	}
 }
