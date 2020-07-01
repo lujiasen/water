@@ -29,8 +29,8 @@ public class KdniaoTrackQueryAPI {
     //DEMO
     public static void main(String[] args) {
         try {
-            System.out.println(getExpressCompany("888753224812923378"));
-            String expressMsg = getOrderTracesByJson("YTO", "888753224812923378");
+            System.out.println(getExpressCompany("SF1025362114417"));
+            String expressMsg = getOrderTracesByJson("SF", "SF1025362114417");
             JSONObject json = JSONObject.parseObject(expressMsg);
             System.out.println(json);
             System.out.println(json.getString("State"));
@@ -55,7 +55,12 @@ public class KdniaoTrackQueryAPI {
     public static String getOrderTracesByJson(String expCode, String expNo){
         String result = "";
         try{
-            String requestData = "{'OrderCode':'','ShipperCode':'" + expCode + "','LogisticCode':'" + expNo + "'}";
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("OrderCode","");
+            jsonObject.put("ShipperCode",expCode);
+            jsonObject.put("LogisticCode",expNo);
+            jsonObject.put("CustomerName","0848");
+            String requestData = jsonObject.toJSONString();
 
             Map<String, String> params = new HashMap<String, String>();
             params.put("RequestData", urlEncoder(requestData, "UTF-8"));
